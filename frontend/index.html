@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="ML-powered machine failure prediction and early warning dashboard."
+    >
+
+    <title>ML Model Failure Prediction | Early Warning System</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- =====================================
+         FULL-SCREEN WELCOME SECTION
+    ====================================== -->
+
+    <section class="welcome-section">
+
+        <div class="welcome-content">
+
+            <span class="welcome-label">
+                Intelligent Predictive Maintenance
+            </span>
+
+            <h1>
+                ML Model Failure Prediction
+                <span>&amp; Early Warning System</span>
+            </h1>
+
+            <p class="welcome-description">
+                Predict potential machine failures before they happen.
+                Analyze operating conditions, estimate failure risk,
+                and support smarter maintenance decisions with
+                machine learning.
+            </p>
+
+            <div class="welcome-indicator">
+                <span class="indicator-dot"></span>
+                Machine Intelligence Dashboard
+            </div>
+
+        </div>
+
+        <div class="welcome-bottom">
+            PREDICT &nbsp;·&nbsp; MONITOR &nbsp;·&nbsp; PREVENT
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         MAIN DASHBOARD SECTION
+    ====================================== -->
+
+    <section class="dashboard-section" id="dashboard">
+
+        <!-- Dashboard heading -->
+
+        <div class="dashboard-heading">
+
+            <span class="section-label">
+                MACHINE MONITORING
+            </span>
+
+            <h2>Failure Prediction Dashboard</h2>
+
+            <p>
+                Enter machine operating readings to estimate
+                the probability of failure.
+            </p>
+
+        </div>
+
+
+        <!-- Dashboard cards -->
+
+        <main class="container">
+
+            <!-- =====================================
+                 MACHINE INPUT FORM
+            ====================================== -->
+
+            <section class="card input-card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon" aria-hidden="true">
+                        ⚙
+                    </div>
+
+                    <div>
+                        <h3>Machine Operating Conditions</h3>
+
+                        <p>
+                            Enter the current machine readings below.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form id="prediction-form">
+
+                    <!-- Machine type -->
+
+                    <div class="form-group">
+
+                        <label for="machine-type">
+                            Machine Type
+                        </label>
+
+                        <select id="machine-type" required>
+                            <option value="L">L — Low quality variant</option>
+                            <option value="M">M — Medium quality variant</option>
+                            <option value="H">H — High quality variant</option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- Air temperature -->
+
+                    <div class="form-group">
+
+                        <label for="air-temperature">
+                            Air Temperature (K)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="air-temperature"
+                            step="any"
+                            min="0"
+                            value="300"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Process temperature -->
+
+                    <div class="form-group">
+
+                        <label for="process-temperature">
+                            Process Temperature (K)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="process-temperature"
+                            step="any"
+                            min="0"
+                            value="310"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Rotational speed -->
+
+                    <div class="form-group">
+
+                        <label for="rotational-speed">
+                            Rotational Speed (rpm)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="rotational-speed"
+                            min="1"
+                            step="1"
+                            value="1500"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Torque -->
+
+                    <div class="form-group">
+
+                        <label for="torque">
+                            Torque (Nm)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="torque"
+                            min="0"
+                            step="any"
+                            value="40"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Tool wear -->
+
+                    <div class="form-group">
+
+                        <label for="tool-wear">
+                            Tool Wear (minutes)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="tool-wear"
+                            min="0"
+                            step="1"
+                            value="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Predict button -->
+
+                    <button type="submit" id="predict-button">
+
+                        <span>Analyze Machine Risk</span>
+
+                        <span class="button-arrow" aria-hidden="true">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- Status message -->
+
+                    <p
+                        id="status-message"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+
+                </form>
+
+            </section>
+
+
+            <!-- =====================================
+                 PREDICTION RESULTS
+            ====================================== -->
+
+            <section class="card results-card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon results-icon" aria-hidden="true">
+                        ◈
+                    </div>
+
+                    <div>
+                        <h3>Prediction Results</h3>
+
+                        <p>
+                            Model-generated machine failure assessment.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Hidden until a prediction is returned -->
+
+                <div id="prediction-results" hidden>
+
+
+                    <!-- Prediction status -->
+
+                    <div class="result-item">
+
+                        <span class="result-label">
+                            PREDICTION STATUS
+                        </span>
+
+                        <strong
+                            id="prediction-status"
+                            data-status=""
+                        >
+                            --
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Failure probability -->
+
+                    <div class="result-item probability-item">
+
+                        <span class="result-label">
+                            FAILURE PROBABILITY
+                        </span>
+
+                        <strong id="failure-probability">
+                            --
+                        </strong>
+
+                        <div class="probability-track">
+                            <div
+                                class="probability-fill"
+                                id="probability-fill"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Risk level -->
+
+                    <div class="result-item">
+
+                        <span class="result-label">
+                            RISK LEVEL
+                        </span>
+
+                        <strong
+                            id="risk-level"
+                            data-risk=""
+                        >
+                            --
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Prediction explanation -->
+
+                    <div
+                        id="prediction-message"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+                </div>
+
+
+                <!-- Initial state -->
+
+                <div id="empty-results" class="empty-results">
+
+                    <div class="empty-icon" aria-hidden="true">
+                        ◇
+                    </div>
+
+                    <h4>Ready for Analysis</h4>
+
+                    <p>
+                        Enter the machine readings and select
+                        <strong>Analyze Machine Risk</strong>
+                        to view the model's prediction.
+                    </p>
+
+                </div>
+
+
+                <!-- Disclaimer -->
+
+                <div class="disclaimer">
+
+                    <span class="disclaimer-symbol" aria-hidden="true">
+                        !
+                    </span>
+
+                    <p>
+                        <strong>Important:</strong>
+                        This project uses a machine-learning model
+                        trained on the AI4I 2020 predictive maintenance
+                        dataset. Predictions are estimates, not
+                        guarantees of actual machine failure.
+                        Always follow appropriate maintenance and
+                        safety procedures.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </section>
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer>
+
+        <p>
+            ML Model Failure Prediction &amp; Early Warning System
+        </p>
+
+        <span>
+            Machine Learning &nbsp;|&nbsp; Predictive Maintenance
+        </span>
+
+    </footer>
+
+</body>
+
+</html>
+```
